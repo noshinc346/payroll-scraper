@@ -57,7 +57,7 @@ HTML Source (pay_history.html):
 
 
 ## 📌 Why This Project?
-This project was built to showcase real-world integration skills for companies like Pinwheel who work with payroll systems lacking public APIs. It demonstrates:
+It demonstrates:
 
 🔍 Web scraping and automation with Selenium
 
