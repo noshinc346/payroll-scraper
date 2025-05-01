@@ -1,38 +1,56 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import pandas as pd
 import time
+import json
+import csv
 import os
 
-# Set up the Chrome driver
-driver_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # Optional, only needed if you run into driver issues
-
-# Use Selenium's built-in driver manager (you can customize this if needed)
+# Set up Selenium WebDriver (using Chrome in this example)
 options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # Run in background
+options.add_argument('--headless')  # Run in headless mode
+
 driver = webdriver.Chrome(options=options)
 
-# Open the mock HTML file locally
-file_path = f"file://{os.getcwd()}/pay_history.html"
-driver.get(file_path)
+# Replace with the local HTML file path
+html_file_path = os.path.abspath("pay_history.html")  # Make sure this points to your actual HTML file
 
-time.sleep(1)  # Give it a moment to load
+try:
+    # Step 1: Open the local HTML file
+    driver.get("file://" + html_file_path)  # Loads the local HTML file
+    time.sleep(2)  # Wait for the page to load
 
-# Scrape table rows
-rows = driver.find_elements(By.XPATH, "//table[@id='pay-history']/tr")[1:]  # skip header
-data = []
+    # Step 2: Extract paycheck data
+    data = []
+    
+    # Find the table by its ID
+    table = driver.find_element(By.ID, "pay-history")
+    
+    # Loop through all rows of the table, starting from the second row (skipping header row)
+    rows = table.find_elements(By.TAG_NAME, "tr")[1:]
+    
+    for row in rows:
+        cols = row.find_elements(By.TAG_NAME, "td")
+        if len(cols) >= 3:
+            data.append({
+                "date": cols[0].text.strip(),
+                "employer": cols[1].text.strip(),
+                "amount": float(cols[2].text.strip().replace("$", "").replace(",", ""))
+            })
 
-for row in rows:
-    cols = row.find_elements(By.TAG_NAME, "td")
-    date = cols[0].text
-    employer = cols[1].text
-    amount = cols[2].text
-    data.append({"date": date, "employer": employer, "amount": amount})
+    # Step 3: Export to JSON
+    with open("output/paychecks.json", "w") as f:
+        json.dump(data, f, indent=2)
 
-# Save to CSV
-df = pd.DataFrame(data)
-df.to_csv("output/pay_history.csv", index=False)
-print("✅ Data scraped and saved to output/pay_history.csv")
+    # Step 4: Export to CSV
+    with open("output/paychecks.csv", "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["date", "employer", "amount"])
+        writer.writeheader()
+        writer.writerows(data)
 
-driver.quit()
+    print("✅ Data scraped and saved to output/paychecks.json and .csv")
+
+except Exception as e:
+    print("❌ Error:", e)
+
+finally:
+    driver.quit()
