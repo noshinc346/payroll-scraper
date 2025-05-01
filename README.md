@@ -1,31 +1,68 @@
-# Payroll Portal Scraper
+# 🧾 Payroll Scraper & API Project
 
-This project demonstrates web scraping automation using Selenium in Python to log into a mock payroll portal, extract pay history data, and save it into a JSON and CSV file.
+This project simulates an integration with a payroll system that lacks an API. It uses **Selenium** to scrape pay history data from a local HTML file and serves that data via a **Flask API**. It mimics the kind of detective work required to integrate undocumented systems, like those you'd encounter at companies such as **Pinwheel**.
 
-## Features:
-- Automated login using Selenium
-- Data extraction from a payroll portal
-- Data export in JSON and CSV formats
+---
 
-## How to Run:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/noshinc346/payroll-scraper.git
-2. Navigate to project folder:  
-    ```bash
-    cd payroll-scraper
-1. Set up the virtual environment and install dependencies:
-    ```bash 
-    python -m venv venv
-    source venv/bin/activate  # For Mac/Linux
-    pip install -r requirements.txt
-1. Run the scraper:
-    ```bash
-    python scraper.py
-5. Check the output folder for paychecks.json and paychecks.csv
+## 🚀 Features
 
-## Tools Used:
-Python
-Selenium
-JSON, CSV
-ChromeDriver (make sure to have the correct version installed)
+- ✅ Scrapes pay history data (date, employer, amount) from a local HTML file using Selenium.
+- ✅ Cleans and stores data in both `.json` and `.csv` formats.
+- ✅ Exposes the data through a RESTful Flask API:
+  - `/paychecks` – returns raw paycheck data.
+  - `/payroll` – returns aggregated payroll statistics.
+- ✅ Modular file structure for easier extensibility.
+
+---
+
+## 🗂 Project Structure
+payroll-scraper/ │ ├── app.py # Flask API serving the scraped data ├── scraper.py # Selenium script for scraping pay history ├── pay_history.html # Local HTML file acting as the payroll dashboard ├── styles.css # Styling for the HTML page ├── output/ │ ├── paychecks.json # JSON output of scraped data │ └── paychecks.csv # CSV output of scraped data ├── requirements.txt # Python dependencies └── README.md # Project documentation
+
+## 💻 How to Run
+
+### 1. Set Up Environment
+```bash
+git clone https://github.com/your-username/payroll-scraper.git
+cd payroll-scraper
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+```
+### 2. Run Scraper
+```bash 
+python scraper.py
+```
+### 3. Run Flask API
+```bash 
+python app.py
+```
+Visit:
+http://127.0.0.1:5000/paychecks – View scraped paycheck data
+http://127.0.0.1:5000/payroll – View total payroll, employee count, and average paycheck
+
+## 🗂 Sample Data Source 
+HTML Source (pay_history.html):
+<table id="pay-history">
+  <tr>
+    <th>Date</th>
+    <th>Employer</th>
+    <th>Amount</th>
+  </tr>
+  <tr>
+    <td>2024-03-15</td>
+    <td>TechWave Solutions</td>
+    <td>$2,800.00</td>
+  </tr>
+</table>
+
+
+## 📌 Why This Project?
+This project was built to showcase real-world integration skills for companies like Pinwheel who work with payroll systems lacking public APIs. It demonstrates:
+
+🔍 Web scraping and automation with Selenium
+
+🧠 Data cleaning and transformation
+
+🌐 Building and exposing RESTful APIs with Flask
+
+💾 Working with structured data (CSV/JSON)
