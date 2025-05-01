@@ -1,0 +1,61 @@
+/* Global settings */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #4CAF50;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  #pay-history {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  #pay-history th,
+  #pay-history td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #pay-history th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  #pay-history tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  #pay-history tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  #pay-history td {
+    color: #555;
+  }
+
